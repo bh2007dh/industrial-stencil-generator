@@ -1,0 +1,11 @@
+{
+  "name": "industrial-stencil-generator",
+  "version": "1.0.0",
+  "description": "Custom Industrial Stencil Font Generator — Exact Reference-Based Vector Typography with Vector PDF & AutoCAD DXF Export",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "node backend/run-tests.js"
+  },
+  "license": "MIT"
+}

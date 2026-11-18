@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Industrial Stencil Font Generator | Vector PDF + DXF Export</title>
+  <link rel="stylesheet" href="./frontend/style.css" />
+</head>
+<body>
+  <header class="eng-header">
+    <div class="brand-wrap">
+      <div class="brand-tag">ENG-CAD // STENCIL-VEC</div>
+      <div>
+        <h1>CUSTOM INDUSTRIAL STENCIL FONT GENERATOR</h1>
+        <p>Exact Reference-Based Vector Typography • True Stencil Bridges • 1:1 Vector PDF + AutoCAD DXF</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <div class="status-badge pass" id="glyphSuiteBadge">
+        <span class="dot"></span>
+        <span>GLYPH SUITE: 36/36 PASS (A–Z, 0–9)</span>
+      </div>
+      <div class="status-badge pass" id="exportValidationBadge">
+        <span class="dot"></span>
+        <span>8/8 EXPORT CHECKS VERIFIED (1:1 MM)</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-grid">
+    <aside class="sidebar-col">
+      <!-- Section A: Text Input -->
+      <section class="card">
+        <div class="card-header">
+          <h2>A. Stencil Text Input</h2>
+          <span class="meta-tag" id="charCountLabel">12 CHARS • 1 LINE</span>
+        </div>
+        <div class="card-body">
+          <textarea
+            id="textInput"
+            class="multiline-input"
+            rows="2"
+            spellcheck="false"
+            placeholder="Enter stencil text (multiline supported)..."
+          >DDCHU0910500</textarea>
+          <div class="preset-chips">
+            <button type="button" class="chip" data-preset="DDCHU0910500">DDCHU0910500 (Default)</button>
+            <button type="button" class="chip" data-preset="ABCDEFGHIJKLMNOPQRSTUVWXYZ">A–Z Test</button>
+            <button type="button" class="chip" data-preset="0123456789">0–9 Test</button>
+            <button type="button" class="chip" data-preset="DDCHU0910500&#10;R01 MAAB 001">2-Line Plate</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section B: Dimension Controls (mm) — 0 to Infinity -->
+      <section class="card">
+        <div class="card-header">
+          <h2>B. Dimension Controls</h2>
+          <span class="meta-tag">RANGE: 0 → ∞ MM</span>
+        </div>
+        <div class="card-body">
+          <div class="two-col">
+            <div class="ctrl-item">
+              <label for="heightInput">
+                <span>CHAR HEIGHT</span>
+                <span class="val-readout" id="heightReadout">8.00 mm</span>
+              </label>
+              <input type="number" id="heightInput" class="num-field" value="8" min="0" step="any" />
+            </div>
+            <div class="ctrl-item">
+              <label for="spacingInput">
+                <span>CHAR SPACING</span>
+                <span class="val-readout" id="spacingReadout">1.00 mm</span>
+              </label>
+              <input type="number" id="spacingInput" class="num-field" value="1" min="0" step="any" />
+            </div>
+          </div>
+
+          <div class="ctrl-item">
+            <label for="strokeMmInput">
+              <span>STROKE THICKNESS</span>
+              <span class="val-readout" id="strokeReadout">1.30 mm (16.2%)</span>
+            </label>
+            <div class="dim-input-slider">
+              <input type="number" id="strokeMmInput" class="num-field dim-mm-box" value="1.30" min="0" step="any" />
+              <input type="range" id="strokeSlider" class="slider" min="0" max="0.5" step="0.001" value="0.162" />
+            </div>
+          </div>
+
+          <div class="ctrl-item">
+            <label for="bridgeMmInput">
+              <span>BRIDGE WIDTH (STENCIL GAP)</span>
+              <span class="val-readout" id="bridgeReadout">0.58 mm (7.2%)</span>
+            </label>
+            <div class="dim-input-slider">
+              <input type="number" id="bridgeMmInput" class="num-field dim-mm-box" value="0.58" min="0" step="any" />
+              <input type="range" id="bridgeSlider" class="slider" min="0" max="0.5" step="0.001" value="0.072" />
+            </div>
+          </div>
+
+          <div class="ctrl-item">
+            <label for="chamferMmInput">
+              <span>CHAMFER SIZE (45° CUT)</span>
+              <span class="val-readout" id="chamferReadout">1.20 mm (15.0%)</span>
+            </label>
+            <div class="dim-input-slider">
+              <input type="number" id="chamferMmInput" class="num-field dim-mm-box" value="1.20" min="0" step="any" />
+              <input type="range" id="chamferSlider" class="slider" min="0" max="0.5" step="0.001" value="0.150" />
+            </div>
+          </div>
+
+          <div class="ctrl-item">
+            <label for="widthMmInput">
+              <span>CHARACTER WIDTH</span>
+              <span class="val-readout" id="widthReadout">5.12 mm (64.0%)</span>
+            </label>
+            <div class="dim-input-slider">
+              <input type="number" id="widthMmInput" class="num-field dim-mm-box" value="5.12" min="0" step="any" />
+              <input type="range" id="widthSlider" class="slider" min="0" max="3.0" step="0.005" value="0.640" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section C: Font Controls -->
+      <section class="card">
+        <div class="card-header">
+          <h2>C. Font &amp; Geometry Controls</h2>
+          <button type="button" id="resetDefaultsBtn" class="chip">↺ Reset Defaults</button>
+        </div>
+        <div class="card-body">
+          <div class="spec-Badges">
+            <span class="spec-pill">Weight: Bold Industrial</span>
+            <span class="spec-pill">Construction: Square / Rect</span>
+            <span class="spec-pill">Corners: Angular Chamfered</span>
+          </div>
+
+          <div class="toggle-row">
+            <label class="switch-label">
+              <input type="checkbox" id="bridgesEnabledCheck" checked />
+              <span>Enable Stencil Bridges (Connect Islands)</span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <label class="switch-label">
+              <input type="checkbox" id="fixedWidthCheck" />
+              <span>Fixed-Width Monospace Mode (vs Proportional)</span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <label class="switch-label">
+              <input type="checkbox" id="dxfCharBoundsCheck" />
+              <span>Include CHAR_OUTLINES Layer in DXF</span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <label class="switch-label">
+              <input type="checkbox" id="dxfAnnotationsCheck" checked />
+              <span>Include ANNOTATIONS (Plate Border) Layer in DXF</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9 & 10: PDF & DXF Export -->
+      <section class="card">
+        <div class="card-header">
+          <h2>PDF &amp; AutoCAD DXF Export</h2>
+          <span class="meta-tag">1:1 VECTOR</span>
+        </div>
+        <div class="card-body">
+          <div class="ctrl-item">
+            <label for="pdfModeSelect"><span>PDF DRAWING FORMAT</span></label>
+            <select id="pdfModeSelect" class="num-field" style="width:100%;">
+              <option value="text-only" selected>Option 1: Text-Only Stencil Drawing (Clean White / Black Vector)</option>
+              <option value="engineering">Option 2: Complete Engineering Drawing (With Title Block)</option>
+            </select>
+          </div>
+
+          <div class="export-btn-group">
+            <button type="button" id="exportPdfBtn" class="btn-amber">
+              ⬇ EXPORT VECTOR PDF (.PDF)
+            </button>
+            <button type="button" id="previewPdfTabBtn" class="btn-outline">
+              👁 OPEN VECTOR PDF IN NEW TAB
+            </button>
+            <button type="button" id="exportDxfBtn" class="btn-cyan">
+              ⬇ EXPORT AUTOCAD DXF (.DXF)
+            </button>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-cell">
+              <span class="m-label">Overall Width × Height</span>
+              <span class="m-val" id="metricDimensions">71.01 × 8.00 mm</span>
+            </div>
+            <div class="metric-cell">
+              <span class="m-label">Closed Cut Polygons</span>
+              <span class="m-val" id="metricPolygons">29 Loops</span>
+            </div>
+            <div class="metric-cell">
+              <span class="m-label">Vector Vertices</span>
+              <span class="m-val" id="metricVertices">256 Pts</span>
+            </div>
+            <div class="metric-cell">
+              <span class="m-label">Active Bridges</span>
+              <span class="m-val" id="metricBridges">24 Bridges</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Right Main Area -->
+    <section class="main-col">
+      <!-- Section D: Live Vector Preview -->
+      <div class="card">
+        <div class="preview-bar">
+          <div class="mode-group" id="previewModeTabs">
+            <button type="button" class="tab-btn active" data-mode="plate">Metal Stencil Plate</button>
+            <button type="button" class="tab-btn" data-mode="stencil">Solid Stencil (Dark)</button>
+            <button type="button" class="tab-btn" data-mode="white">White Background Engineering Inspection</button>
+            <button type="button" class="tab-btn" data-mode="wireframe">CAD Cut Paths + Vertices</button>
+          </div>
+          <div class="preview-tools">
+            <label class="tool-check">
+              <input type="checkbox" id="showGridDimsCheck" checked />
+              <span>Grid &amp; Dimensions</span>
+            </label>
+            <label class="tool-check">
+              <input type="checkbox" id="showCharBoundsCheck" />
+              <span>Char Boundaries</span>
+            </label>
+            <label class="tool-check">
+              <input type="checkbox" id="compareRefCheck" />
+              <span>Side-by-Side Reference</span>
+            </label>
+            <button type="button" id="zoomInBtn" class="chip">+</button>
+            <button type="button" id="zoomOutBtn" class="chip">−</button>
+            <button type="button" id="fitViewBtn" class="chip">Fit 1:1</button>
+          </div>
+        </div>
+
+        <div class="viewport-wrapper" id="viewportWrapper">
+          <div class="ref-comparison-pane" id="refComparisonPane" style="display: none;">
+            <div class="ref-pane-header">
+              <span>PRIMARY VISUAL REFERENCE IMAGE</span>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <select id="presetRefSelect" class="chip">
+                  <option value="./uploads/reference_primary.png">Uploaded Plate Reference</option>
+                  <option value="./uploads/reference_solid.jpg">Uploaded Solid Stencil Reference</option>
+                  <option value="./uploads/reference_autocad.jpg">Uploaded AutoCAD Reference</option>
+                </select>
+                <label class="chip" style="cursor:pointer;">
+                  Upload PNG/JPG
+                  <input type="file" id="refUploadInput" accept=".png,.jpg,.jpeg" style="display:none;" />
+                </label>
+              </div>
+            </div>
+            <div class="ref-img-box">
+              <img id="refPreviewImg" src="./uploads/reference_primary.png" alt="Primary Visual Reference" />
+            </div>
+            <div class="ref-analysis-bar" id="refAnalysisBar">
+              Reference Analysis: Square/Rectangular Construction • 16.2% Stroke • 15.0% 45° Chamfer • 7.2% Bridge Gap
+            </div>
+          </div>
+
+          <div class="svg-stage" id="svgStage">
+            <svg id="livePreviewSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+        </div>
+
+        <div class="preview-status-bar">
+          <span id="previewModelNote">
+            UNIFIED GEOMETRY MODEL: Live SVG Preview, Vector PDF, and AutoCAD DXF share the exact same polygon vertex arrays.
+          </span>
+          <span id="cursorReadout">X: 0.00 mm, Y: 0.00 mm</span>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="card">
+          <div class="card-header">
+            <h2>Pre-Export Validation &amp; Reference Matching</h2>
+            <label class="chip" style="cursor:pointer;">
+              📤 Upload Reference (PNG/JPG)
+              <input type="file" id="refUploadInput2" accept=".png,.jpg,.jpeg" style="display:none;" />
+            </label>
+          </div>
+          <div class="card-body">
+            <table class="val-table" id="exportChecksTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Validation Check</th>
+                  <th>Status</th>
+                  <th>Measured Detail</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 id="inspectorTitle">Individual Glyph Geometry Inspector: 'D'</h2>
+            <span class="meta-tag" id="inspectorBridgeTag">2 Bridges • 0 Islands</span>
+          </div>
+          <div class="card-body">
+            <div class="inspector-layout">
+              <div class="inspector-svg-box">
+                <svg id="inspectorSvg" width="185" height="185" viewBox="0 0 185 185"></svg>
+              </div>
+              <div class="inspector-details">
+                <div class="metrics-grid" style="margin-top:0;">
+                  <div class="metric-cell">
+                    <span class="m-label">Width × Height</span>
+                    <span class="m-val" id="inspDim">5.12 × 8.00 mm</span>
+                  </div>
+                  <div class="metric-cell">
+                    <span class="m-label">Cutout Polygons</span>
+                    <span class="m-val" id="inspPolys">2 Closed Loops</span>
+                  </div>
+                  <div class="metric-cell">
+                    <span class="m-label">Vertices</span>
+                    <span class="m-val" id="inspVerts">16 Vertices</span>
+                  </div>
+                  <div class="metric-cell">
+                    <span class="m-label">Island Status</span>
+                    <span class="m-val" id="inspStatus" style="color:#4ade80;">BRIDGED (PASS)</span>
+                  </div>
+                </div>
+                <pre class="coord-pre" id="inspectorCoordPre"></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Automated Character Testing Matrix (A–Z, 0–9 &amp; Symbols) — Click Any Glyph to Inspect</h2>
+          <span class="meta-tag" id="matrixSummaryTag">ALL 36 CORE GLYPHS + SYMBOLS VERIFIED</span>
+        </div>
+        <div class="card-body">
+          <div class="glyph-matrix" id="glyphMatrix"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./glyph-library/alphabet.js"></script>
+  <script src="./glyph-library/numerals.js"></script>
+  <script src="./glyph-library/symbols.js"></script>
+  <script src="./backend/geometry-engine.js"></script>
+  <script src="./backend/text-layout.js"></script>
+  <script src="./backend/pdf-export.js"></script>
+  <script src="./backend/dxf-export.js"></script>
+  <script src="./backend/validation.js"></script>
+  <script src="./backend/reference-analyser.js"></script>
+  <script src="./frontend/app.js"></script>
+</body>
+</html>
